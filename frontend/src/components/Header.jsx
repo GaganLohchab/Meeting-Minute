@@ -1,7 +1,23 @@
 import React, { useState, useEffect } from 'react';
+import LoginButton from "./login"
+import LogoutButton from "./logout"
+import{ gapi } from 'gapi-script'
+
+const clientId = process.env.Client_ID;
 
 const Header = () => {
     const [currentTime, setCurrentTime] = useState('');
+
+    useEffect (() => {
+        function start(){
+            gapi.client.init({
+                clientId:clientId,
+                scope:""
+            })
+        };
+        gapi.load("client:auth2", start);
+    })
+
 
     useEffect(() => {
         const intervalId = setInterval(() => {
@@ -13,7 +29,7 @@ const Header = () => {
 
         return () => clearInterval(intervalId);
     }, []);
-// ksksjsj
+
     return (
         <div className="navbar bg-base-100 bg-white">
             <div className="flex-1 flex items-center">
@@ -39,12 +55,14 @@ const Header = () => {
                         
                     </div>
                 </div>
-                <button
+                <LoginButton />
+                <LogoutButton />
+                {/* <button
                             type="button"
                             className="custom-button text-white bg-blue-600 border-0 py-2 px-6 focus:outline-none hover:bg-blue-800 rounded text-lg flex justify-center items-center"
                         >
                             <span>Sign In</span>
-                        </button>
+                        </button> */}
             </div>
         </div>
     );

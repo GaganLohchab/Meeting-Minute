@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaVideo } from "react-icons/fa";
 import { MdKeyboardAlt } from "react-icons/md";
+
 
 const LeftSidebar = () => {
     const [inputValue, setInputValue] = useState("");
@@ -9,6 +10,7 @@ const LeftSidebar = () => {
         setInputValue(e.target.value);
     };
 
+    
     return (
         <div className="Body flex flex-1 overflow-hidden">
             <div className="LeftSidebar w-1/2 flex flex-col justify-between">
