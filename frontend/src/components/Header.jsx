@@ -8,15 +8,19 @@ const clientId = process.env.Client_ID;
 const Header = () => {
     const [currentTime, setCurrentTime] = useState('');
 
-    useEffect (() => {
-        function start(){
-            gapi.client.init({
-                clientId:clientId,
-                scope:""
-            })
-        };
+    useEffect(() => {
+        function start() {
+          gapi.client.init({
+            clientId: clientId,
+            scope: ""
+          }).then(() => {
+            console.log("GAPI client initialized");
+          }).catch((error) => {
+            console.error("Error initializing GAPI client", error);
+          });
+        }
         gapi.load("client:auth2", start);
-    })
+      }, []);
 
 
     useEffect(() => {

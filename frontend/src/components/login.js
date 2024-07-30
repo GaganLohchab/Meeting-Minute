@@ -1,5 +1,6 @@
 import React from 'react';
 import { GoogleLogin } from 'react-google-login';
+const clientId = process.env.REACT_APP_CLIENT_ID;
 
 function Login() {
   const onSuccess = (res) => {
@@ -13,7 +14,7 @@ function Login() {
   return (
     <div id="signInButton">
       <GoogleLogin
-        clientId={process.env.REACT_APP_CLIENT_ID}
+        clientId={clientId}
         buttonText="Sign In"
         onSuccess={onSuccess}
         onFailure={onFailure}
