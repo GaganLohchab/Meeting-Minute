@@ -11,8 +11,16 @@ function Logout() {
     <div id="signOutButton">
       <GoogleLogout
         clientId={clientId}
-        buttonText={"Logout"}
         onLogoutSuccess={onSuccess}
+        render={renderProps => (
+          <button
+            onClick={renderProps.onClick}
+            disabled={renderProps.disabled}
+            className="custom-button text-white bg-blue-600 border-0 py-2 px-6 focus:outline-none hover:bg-blue-800 rounded text-lg flex justify-center items-center"
+          >
+            Logout
+          </button>
+        )}
       />
     </div>
   );
