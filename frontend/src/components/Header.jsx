@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import LoginButton from "./login";
-import LogoutButton from "./logout";
+import Avatar from "./Avatar";
 import { gapi } from 'gapi-script';
 
 const clientId = process.env.REACT_APP_CLIENT_ID;
@@ -16,7 +16,6 @@ const Header = () => {
                 scope: ""
             }).then(() => {
                 console.log("GAPI client initialized");
-                // Check if user is already signed in
                 const authInstance = gapi.auth2.getAuthInstance();
                 setIsLoggedIn(authInstance.isSignedIn.get());
                 authInstance.isSignedIn.listen(setIsLoggedIn); // Listen for sign-in state changes
@@ -51,22 +50,7 @@ const Header = () => {
             <div className="flex-none gap-2">
                 <div className="flex items-center">
                     <span className="mr-4 text-sm text-black">{currentTime}</span>
-                    <div className="dropdown dropdown-end">
-                        <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
-                            {isLoggedIn ? (
-                                <div className="w-10 h-10 rounded-full overflow-hidden">
-                                    <img alt="User Avatar" src="/icon-profile.jpg" className="w-full h-full object-cover" />
-                                </div>
-                            ) : (
-                                <LoginButton />
-                            )}
-                        </div>
-                        {isLoggedIn && (
-                            <div tabIndex={0} className="dropdown-content p-0 bg-transparent">
-                                <LogoutButton />
-                            </div>
-                        )}
-                    </div>
+                    {isLoggedIn ? <Avatar /> : <LoginButton />}
                 </div>
             </div>
         </div>
