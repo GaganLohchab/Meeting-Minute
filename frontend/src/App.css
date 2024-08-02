@@ -12,3 +12,11 @@ html, body, #root {
     padding: 0;
     overflow: hidden;
   }
+
+.avatarc {
+    background-color: #00a1a2;
+    padding-top: 5px;
+    padding-right: 1.5px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    
+}

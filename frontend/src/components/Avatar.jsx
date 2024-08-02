@@ -1,35 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import LogoutButton from "./logout"
-import { gapi } from 'gapi-script'
+import React from 'react';
+import LogoutButton from "./logout";
 
-const clientId = process.env.REACT_APP_CLIENT_ID;
-const Avatar = () => {
-    useEffect(() => {
-        function start() {
-            gapi.client.init({
-                clientId: clientId,
-                scope: ""
-            }).then(() => {
-                console.log("GAPI client initialized");
-            }).catch((error) => {
-                console.error("Error initializing GAPI client", error);
-            });
-        }
-        gapi.load("client:auth2", start);
-    }, []);
+const Avatar = ({ userEmail }) => {
+    // Extract the first character of the email
+    const initial = userEmail ? userEmail.charAt(0).toUpperCase() : '';
 
     return (
         <div className="dropdown dropdown-end">
             <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
-                <div className="w-10 rounded-full">
-                    <img alt="Tailwind CSS Navbar component" src="/icon-profile.jpg" />
+                <div className="avatarc w-10 h-10 rounded-full flex items-center justify-center text-white text-xl">
+                    {initial || <img alt="Default Avatar" src="/icon-profile.jpg" />}
                 </div>
             </div>
-            <div tabIndex={0} className="dropdown-content p-0 bg-transparent">
+            <div tabIndex={0} className="dropdown-content p-0 bg-transparent mt-2 mr-1">
                 <LogoutButton />
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default Avatar;

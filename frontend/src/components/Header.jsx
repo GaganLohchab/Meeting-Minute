@@ -7,23 +7,39 @@ const clientId = process.env.REACT_APP_CLIENT_ID;
 
 const Header = () => {
     const [currentTime, setCurrentTime] = useState('');
-    const [isLoggedIn, setIsLoggedIn] = useState(false); // State to track login status
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [userEmail, setUserEmail] = useState('');
 
     useEffect(() => {
         function start() {
-            gapi.client.init({
-                clientId: clientId,
-                scope: ""
-            }).then(() => {
-                console.log("GAPI client initialized");
-                const authInstance = gapi.auth2.getAuthInstance();
-                setIsLoggedIn(authInstance.isSignedIn.get());
-                authInstance.isSignedIn.listen(setIsLoggedIn); // Listen for sign-in state changes
-            }).catch((error) => {
-                console.error("Error initializing GAPI client", error);
+            gapi.load('client:auth2', () => {
+                gapi.client.init({
+                    clientId: clientId,
+                    scope: ""
+                }).then(() => {
+                    console.log("GAPI client initialized");
+                    const authInstance = gapi.auth2.getAuthInstance();
+                    if (authInstance) {
+                        setIsLoggedIn(authInstance.isSignedIn.get());
+                        if (authInstance.isSignedIn.get()) {
+                            setUserEmail(authInstance.currentUser.get().getBasicProfile().getEmail());
+                        }
+                        authInstance.isSignedIn.listen((isSignedIn) => {
+                            setIsLoggedIn(isSignedIn);
+                            if (isSignedIn) {
+                                setUserEmail(authInstance.currentUser.get().getBasicProfile().getEmail());
+                            } else {
+                                setUserEmail('');
+                            }
+                        });
+                    }
+                }).catch((error) => {
+                    console.error("Error initializing GAPI client", error);
+                });
             });
         }
-        gapi.load("client:auth2", start);
+
+        start();
     }, []);
 
     useEffect(() => {
@@ -50,7 +66,7 @@ const Header = () => {
             <div className="flex-none gap-2">
                 <div className="flex items-center">
                     <span className="mr-4 text-sm text-black">{currentTime}</span>
-                    {isLoggedIn ? <Avatar /> : <LoginButton />}
+                    {isLoggedIn ? <Avatar userEmail={userEmail} /> : <LoginButton />}
                 </div>
             </div>
         </div>
