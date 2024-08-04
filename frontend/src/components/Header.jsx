@@ -15,7 +15,7 @@ const Header = () => {
             gapi.load('client:auth2', () => {
                 gapi.client.init({
                     clientId: clientId,
-                    scope: ""
+                    scope: "profile email"
                 }).then(() => {
                     console.log("GAPI client initialized");
                     const authInstance = gapi.auth2.getAuthInstance();
