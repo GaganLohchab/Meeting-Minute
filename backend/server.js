@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
 
-// Load environment variables from .env file
+
 dotenv.config();
 
 const app = express();
